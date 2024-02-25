@@ -2,7 +2,7 @@
 // this is an auto generated file. This will be overwritten
 
 export const addDog = /* GraphQL */ `
-  mutation AddDog(
+  mutation addDog(
     $input: AddDogInput!
     $condition: ModelDogConditionInput
   ) {
