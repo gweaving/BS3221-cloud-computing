@@ -9,11 +9,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createNote } from "../graphql/mutations";
+import { getDog } from "../graphql/queries";
+import { updateDog } from "../graphql/mutations";
 const client = generateClient();
-export default function NoteCreateForm(props) {
+export default function DogUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    dog: dogModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -24,21 +26,42 @@ export default function NoteCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    description: "",
+    breed: "",
+    walkLength: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [description, setDescription] = React.useState(
-    initialValues.description
-  );
+  const [breed, setBreed] = React.useState(initialValues.breed);
+  const [walkLength, setWalkLength] = React.useState(initialValues.walkLength);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setDescription(initialValues.description);
+    const cleanValues = dogRecord
+      ? { ...initialValues, ...dogRecord }
+      : initialValues;
+    setName(cleanValues.name);
+    setBreed(cleanValues.breed);
+    setWalkLength(cleanValues.walkLength);
     setErrors({});
   };
+  const [dogRecord, setDogRecord] = React.useState(dogModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await client.graphql({
+              query: getDog.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getDog
+        : dogModelProp;
+      setDogRecord(record);
+    };
+    queryData();
+  }, [idProp, dogModelProp]);
+  React.useEffect(resetStateValues, [dogRecord]);
   const validations = {
     name: [{ type: "Required" }],
-    description: [],
+    breed: [{ type: "Required" }],
+    walkLength: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -67,7 +90,8 @@ export default function NoteCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          description,
+          breed,
+          walkLength,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -98,18 +122,16 @@ export default function NoteCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createNote.replaceAll("__typename", ""),
+            query: updateDog.replaceAll("__typename", ""),
             variables: {
               input: {
+                id: dogRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -118,7 +140,7 @@ export default function NoteCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "NoteCreateForm")}
+      {...getOverrideProps(overrides, "DogUpdateForm")}
       {...rest}
     >
       <TextField
@@ -131,7 +153,8 @@ export default function NoteCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              description,
+              breed,
+              walkLength,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -147,42 +170,70 @@ export default function NoteCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Description"
-        isRequired={false}
+        label="Breed"
+        isRequired={true}
         isReadOnly={false}
-        value={description}
+        value={breed}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              description: value,
+              breed: value,
+              walkLength,
             };
             const result = onChange(modelFields);
-            value = result?.description ?? value;
+            value = result?.breed ?? value;
           }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
+          if (errors.breed?.hasError) {
+            runValidationTasks("breed", value);
           }
-          setDescription(value);
+          setBreed(value);
         }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
+        onBlur={() => runValidationTasks("breed", breed)}
+        errorMessage={errors.breed?.errorMessage}
+        hasError={errors.breed?.hasError}
+        {...getOverrideProps(overrides, "breed")}
+      ></TextField>
+      <TextField
+        label="Walk length"
+        isRequired={true}
+        isReadOnly={false}
+        value={walkLength}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              breed,
+              walkLength: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.walkLength ?? value;
+          }
+          if (errors.walkLength?.hasError) {
+            runValidationTasks("walkLength", value);
+          }
+          setWalkLength(value);
+        }}
+        onBlur={() => runValidationTasks("walkLength", walkLength)}
+        errorMessage={errors.walkLength?.errorMessage}
+        hasError={errors.walkLength?.hasError}
+        {...getOverrideProps(overrides, "walkLength")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || dogModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -192,7 +243,10 @@ export default function NoteCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || dogModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

@@ -21,29 +21,32 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type NoteUpdateFormInputValues = {
+export declare type DogUpdateFormInputValues = {
     name?: string;
-    description?: string;
+    breed?: string;
+    walkLength?: string;
 };
-export declare type NoteUpdateFormValidationValues = {
+export declare type DogUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
-    description?: ValidationFunction<string>;
+    breed?: ValidationFunction<string>;
+    walkLength?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type NoteUpdateFormOverridesProps = {
-    NoteUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type DogUpdateFormOverridesProps = {
+    DogUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
-    description?: PrimitiveOverrideProps<TextFieldProps>;
+    breed?: PrimitiveOverrideProps<TextFieldProps>;
+    walkLength?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type NoteUpdateFormProps = React.PropsWithChildren<{
-    overrides?: NoteUpdateFormOverridesProps | undefined | null;
+export declare type DogUpdateFormProps = React.PropsWithChildren<{
+    overrides?: DogUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    note?: any;
-    onSubmit?: (fields: NoteUpdateFormInputValues) => NoteUpdateFormInputValues;
-    onSuccess?: (fields: NoteUpdateFormInputValues) => void;
-    onError?: (fields: NoteUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: NoteUpdateFormInputValues) => NoteUpdateFormInputValues;
-    onValidate?: NoteUpdateFormValidationValues;
+    dog?: any;
+    onSubmit?: (fields: DogUpdateFormInputValues) => DogUpdateFormInputValues;
+    onSuccess?: (fields: DogUpdateFormInputValues) => void;
+    onError?: (fields: DogUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: DogUpdateFormInputValues) => DogUpdateFormInputValues;
+    onValidate?: DogUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function NoteUpdateForm(props: NoteUpdateFormProps): React.ReactElement;
+export default function DogUpdateForm(props: DogUpdateFormProps): React.ReactElement;

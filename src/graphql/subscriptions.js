@@ -1,36 +1,39 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateNote = /* GraphQL */ `
-  subscription OnCreateNote($filter: ModelSubscriptionNoteFilterInput) {
-    onCreateNote(filter: $filter) {
+export const onAddDog = /* GraphQL */ `
+  subscription OnAddDog($filter: ModelSubscriptionDogFilterInput) {
+    onAddDog(filter: $filter) {
       id
       name
-      description
+      breed
+      walkLength
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onUpdateNote = /* GraphQL */ `
-  subscription OnUpdateNote($filter: ModelSubscriptionNoteFilterInput) {
-    onUpdateNote(filter: $filter) {
+export const onUpdateDog = /* GraphQL */ `
+  subscription OnUpdateDog($filter: ModelSubscriptionDogFilterInput) {
+    onUpdateDog(filter: $filter) {
       id
       name
-      description
+      breed
+      walkLength
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onDeleteNote = /* GraphQL */ `
-  subscription OnDeleteNote($filter: ModelSubscriptionNoteFilterInput) {
-    onDeleteNote(filter: $filter) {
+export const onDeleteDog = /* GraphQL */ `
+  subscription OnDeleteDog($filter: ModelSubscriptionDogFilterInput) {
+    onDeleteDog(filter: $filter) {
       id
       name
-      description
+      breed
+      walkLength
       createdAt
       updatedAt
       __typename

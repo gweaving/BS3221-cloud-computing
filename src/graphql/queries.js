@@ -1,29 +1,31 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getNote = /* GraphQL */ `
-  query GetNote($id: ID!) {
-    getNote(id: $id) {
+export const getDog = /* GraphQL */ `
+  query GetDog($id: ID!) {
+    getDog(id: $id) {
       id
       name
-      description
+      breed
+      walkLength
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const listNotes = /* GraphQL */ `
-  query ListNotes(
-    $filter: ModelNoteFilterInput
+export const listDogs = /* GraphQL */ `
+  query ListDogs(
+    $filter: ModelDogFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listDogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
-        description
+        breed
+        walkLength
         createdAt
         updatedAt
         __typename

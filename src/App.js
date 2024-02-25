@@ -10,98 +10,117 @@ import {
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { listNotes } from "./graphql/queries";
+import { listDogs } from "./graphql/queries";
 import {
-  createNote as createNoteMutation,
-  deleteNote as deleteNoteMutation,
+  addDog as addDogMutation,
+  deleteDog as deleteDogMutation,
 } from "./graphql/mutations";
 import { generateClient } from 'aws-amplify/api';
 
 const client = generateClient();
 
 const App = ({ signOut }) => {
-  const [notes, setNotes] = useState([]);
+  const [dogs, setDogs] = useState([]);
+  const [userType, setUserType] = useState('');
 
   useEffect(() => {
-    fetchNotes();
+    fetchDogs();
   }, []);
 
-  async function fetchNotes() {
-    const apiData = await client.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
-    setNotes(notesFromAPI);
+  async function fetchDogs() {
+    const apiData = await client.graphql({ query: listDogs });
+    const dogsFromAPI = apiData.data.listDogs.items;
+    setDogs(dogsFromAPI);
   }
 
-  async function createNote(event) {
+  async function addDog(event) {
     event.preventDefault();
     const form = new FormData(event.target);
     const data = {
       name: form.get("name"),
-      description: form.get("description"),
+      breed: form.get("breed"),
+      walkLength: form.get("walkLength")
     };
     await client.graphql({
-      query: createNoteMutation,
+      query: addDogMutation,
       variables: { input: data },
     });
-    fetchNotes();
+    fetchDogs();
     event.target.reset();
   }
 
-  async function deleteNote({ id }) {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
+  async function deleteDog({ id }) {
+    const newDogs = dogs.filter((dog) => dog.id !== id);
+    setDogs(newDogs);
     await client.graphql({
-      query: deleteNoteMutation,
+      query: deleteDogMutation,
       variables: { input: { id } },
     });
   }
 
   return (
     <View className="App">
-      <Heading level={1}>My Notes App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
-        <Flex direction="row" justifyContent="center">
-          <TextField
-            name="name"
-            placeholder="Note Name"
-            label="Note Name"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="description"
-            placeholder="Note Description"
-            label="Note Description"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <Button type="submit" variation="primary">
-            Create Note
-          </Button>
-        </Flex>
-      </View>
-      <Heading level={2}>Current Notes</Heading>
-      <View margin="3rem 0">
-        {notes.map((note) => (
-          <Flex
-            key={note.id || note.name}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Text as="strong" fontWeight={700}>
-              {note.name}
-            </Text>
-            <Text as="span">{note.description}</Text>
-            <Button variation="link" onClick={() => deleteNote(note)}>
-              Delete note
-            </Button>
-          </Flex>
-        ))}
-      </View>
-      <Button onClick={signOut}>Sign Out</Button>
+      <Heading level={1}>My Dogs App</Heading>
+      {userType === '' ? (
+        <View>
+          <Button onClick={() => setUserType('dogOwner')}>I am a dog owner</Button>
+          <Button onClick={() => setUserType('dogWalker')}>I am a dog walker</Button>
+        </View>
+      ) : (
+        <View>
+          <View as="form" margin="3rem 0" onSubmit={addDog}>
+            <Flex direction="row" justifyContent="center">
+              <TextField
+                name="name"
+                placeholder="Dog Name"
+                label="Dog Name"
+                labelHidden
+                variation="quiet"
+                required
+              />
+              <TextField
+                name="breed"
+                placeholder="Dog Breed"
+                label="Dog Breed"
+                labelHidden
+                variation="quiet"
+                required
+              />
+              <TextField
+                name="walkLength"
+                placeholder="Length of Walk"
+                label="Length of Walk"
+                labelHidden
+                variation="quiet"
+                required
+              />
+              <Button type="submit" variation="primary">
+                Add Dog
+              </Button>
+            </Flex>
+          </View>
+          <Heading level={2}>Current Dogs</Heading>
+          <View margin="3rem 0">
+            {dogs.map((dog) => (
+              <Flex
+                key={dog.id || dog.name}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Text as="strong" fontWeight={700}>
+                  {dog.name}
+                </Text>
+                <Text as="span">{dog.breed}{dog.walkLength}</Text>
+                <Button variation="link" onClick={() => deleteDog(dog.id)}>
+                  Delete dog
+                </Button>
+              </Flex>
+            ))}
+          </View>
+          <Button onClick={signOut}>Sign Out</Button>
+        </View>
+      )}
     </View>
   );
 };
