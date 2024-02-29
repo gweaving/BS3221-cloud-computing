@@ -107,29 +107,35 @@ const App = ({ signOut }) => {
           )}
           <Heading level={2}>Current Dogs</Heading>
           <View margin="3rem 0">
-            <Flex
+          <Flex
               direction="row"
               justifyContent="center"
               alignItems="center"
               style={{ fontWeight: "bold" }}
             >
-              <Text style={{ width: "25%" }}>Name</Text>
-              <Text style={{ width: "25%" }}>Breed</Text>
-              <Text style={{ width: "25%" }}>Walk Length</Text>
-              <Text style={{ width: "25%" }}>Action</Text>
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Breed</th>
+              <th>Walk Lenth</th>
+              <th>Action</th>
+            </tr>
+            {dogs.map((dog) => {
+              return (
+                <tr>
+                  <td>{dog.name}</td>
+                  <td>{dog.breed}</td>
+                  <td>{dog.walkLength}</td>
+                </tr>
+              )
+            })}
+          </table>
             </Flex>
-            {dogs.map((dog) => (
               <Flex
-                key={dog.id || dog.name}
                 direction="row"
                 justifyContent="center"
                 alignItems="center"
-                style={{ width: "25%" }}
               >
-                <Text as="strong" style={{ width: "25%" }} fontWeight={700}>
-                  {dog.name}
-                </Text>
-                <Text as="span" style={{ width: "25%" }}>{dog.breed}{dog.walkLength}</Text>
                 {userType === 'dogWalker' ? (
                 <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
                   Walked
@@ -140,7 +146,6 @@ const App = ({ signOut }) => {
                 </Button>
                 )}
               </Flex>
-            ))}
           </View>
           <Button onClick={signOut}>Sign Out</Button>
         </View>
