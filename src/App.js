@@ -107,6 +107,7 @@ const App = ({ signOut }) => {
           )}
           <Heading level={2}>Current Dogs</Heading>
           <View margin="3rem 0">
+          <div style={{ textAlign: "center" }}>
           <table>
             <tr>
               <th>Name</th>
@@ -134,6 +135,7 @@ const App = ({ signOut }) => {
               )
             })}
           </table>
+          </div>
           </View>
           <Button onClick={signOut}>Sign Out</Button>
         </View>
