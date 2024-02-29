@@ -24,8 +24,10 @@ const App = ({ signOut }) => {
   const [userType, setUserType] = useState('');
 
   useEffect(() => {
-    fetchDogs();
-  }, []);
+    if (userType === 'dogOwner') {
+      fetchDogs();
+    }
+  }, [userType]);
 
   async function fetchDogs() {
     const apiData = await client.graphql({ query: listDogs });
@@ -103,27 +105,39 @@ const App = ({ signOut }) => {
           </View>
         </View>
       ) : null}
-      <Heading level={2}>Current Dogs</Heading>
-      <View margin="3rem 0">
-        {dogs.map((dog) => (
-          <Flex
-            key={dog.id || dog.name}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Text as="strong" fontWeight={700}>
-              {dog.name}
-            </Text>
-            <Text as="span">{dog.breed}{dog.walkLength}</Text>
-            {userType === 'dogOwner' && (
-              <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
-                Delete dog
-              </Button>
-            )}
-          </Flex>
-        ))}
-      </View>
+      {userType === 'dogOwner' && (
+        <React.Fragment>
+          <Heading level={2}>Current Dogs</Heading>
+          <View margin="3rem 0">
+            <Flex
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              style={{ fontWeight: "bold" }}
+            >
+              <Text>Name</Text>
+              <Text>Breed</Text>
+              <Text>Walk Length</Text>
+              <Text>Action</Text>
+            </Flex>
+            {dogs.map((dog) => (
+              <Flex
+                key={dog.id || dog.name}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Text>{dog.name}</Text>
+                <Text>{dog.breed}</Text>
+                <Text>{dog.walkLength}</Text>
+                <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
+                  Delete
+                </Button>
+              </Flex>
+            ))}
+          </View>
+        </React.Fragment>
+      )}
       <Button onClick={signOut}>Sign Out</Button>
     </View>
   );
