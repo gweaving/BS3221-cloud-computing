@@ -113,7 +113,8 @@ const App = ({ signOut }) => {
                   {dog.name}
                 </Text>
                 <Text as="span">{dog.breed}{dog.walkLength}</Text>
-                <Button variation="link" onClick={() => deleteDog(dog.id)}>
+                
+                <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
                   Delete dog
                 </Button>
               </Flex>
