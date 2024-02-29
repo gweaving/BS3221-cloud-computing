@@ -113,10 +113,10 @@ const App = ({ signOut }) => {
               alignItems="center"
               style={{ fontWeight: "bold" }}
             >
-              <Text>Name</Text>
-              <Text>Breed</Text>
-              <Text>Walk Length</Text>
-              <Text>Action</Text>
+              <Text style={{ width: "25%" }}>Name</Text>
+              <Text style={{ width: "25%" }}>Breed</Text>
+              <Text style={{ width: "25%" }}>Walk Length</Text>
+              <Text style={{ width: "25%" }}>Action</Text>
             </Flex>
             {dogs.map((dog) => (
               <Flex
@@ -124,15 +124,20 @@ const App = ({ signOut }) => {
                 direction="row"
                 justifyContent="center"
                 alignItems="center"
+                style={{ width: "25%" }}
               >
-                <Text as="strong" fontWeight={700}>
+                <Text as="strong" style={{ width: "25%" }} fontWeight={700}>
                   {dog.name}
                 </Text>
-                <Text as="span">{dog.breed}{dog.walkLength}</Text>
-                {userType === 'dogOwner' && (
-                  <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
-                    Delete dog
-                  </Button>
+                <Text as="span" style={{ width: "25%" }}>{dog.breed}{dog.walkLength}</Text>
+                {userType === 'dogWalker' ? (
+                <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
+                  Walked
+                </Button>
+              ) : (
+                <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
+                  Delete dog
+                </Button>
                 )}
               </Flex>
             ))}
