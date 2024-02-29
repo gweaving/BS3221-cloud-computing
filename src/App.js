@@ -50,6 +50,7 @@ const App = ({ signOut }) => {
   }
 
   async function deleteDog({ id }) {
+    console.log("ID before mutation:", id);
     const newDogs = dogs.filter((dog) => dog.id !== id);
     setDogs(newDogs);
     await client.graphql({
