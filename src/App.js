@@ -134,8 +134,6 @@ const App = ({ signOut }) => {
               )
             })}
           </table>
-            {dogs.map((dog) => (
-            ))}
           </View>
           <Button onClick={signOut}>Sign Out</Button>
         </View>
