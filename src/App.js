@@ -126,6 +126,15 @@ const App = ({ signOut }) => {
                   <td>{dog.name}</td>
                   <td>{dog.breed}</td>
                   <td>{dog.walkLength}</td>
+                  <td>{userType === 'dogWalker' ? (
+                  <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
+                    Walked
+                  </Button>
+                ) : (
+                  <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
+                    Delete dog
+                  </Button>
+                  )}</td>
                 </tr>
               )
             })}
@@ -138,15 +147,6 @@ const App = ({ signOut }) => {
                 justifyContent="center"
                 alignItems="center"
               >
-                {userType === 'dogWalker' ? (
-                <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
-                  Walked
-                </Button>
-              ) : (
-                <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
-                  Delete dog
-                </Button>
-                )}
               </Flex>
             ))}
           </View>
