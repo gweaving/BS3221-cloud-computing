@@ -13,12 +13,6 @@ type Dog @aws_api_key @aws_iam {
   walkLength: String!
 }
 
-input CreateDogInput {
-  name: String!
-  breed: String!
-  walkLength: String!
-}
-
 type ModelDogConnection @aws_api_key @aws_iam {
   items: [Dog]!
   nextToken: String
