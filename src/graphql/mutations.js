@@ -1,12 +1,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const addDog = /* GraphQL */ `
-  mutation addDog(
-    $input: AddDogInput!
+export const createDog = /* GraphQL */ `
+  mutation createDog(
+    $input: CreateDogInput!
     $condition: ModelDogConditionInput
   ) {
-    addDog(input: $input, condition: $condition) {
+    createDog(input: $input, condition: $condition) {
       id
       name
       breed

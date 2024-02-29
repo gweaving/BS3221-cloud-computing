@@ -12,7 +12,7 @@ import {
 } from "@aws-amplify/ui-react";
 import { listDogs } from "./graphql/queries";
 import {
-  addDog as addDogMutation,
+  createDog as createDogMutation,
   deleteDog as deleteDogMutation,
 } from "./graphql/mutations";
 import { generateClient } from 'aws-amplify/api';
@@ -33,7 +33,7 @@ const App = ({ signOut }) => {
     setDogs(dogsFromAPI);
   }
 
-  async function addDog(event) {
+  async function createDog(event) {
     event.preventDefault();
     const form = new FormData(event.target);
     const data = {
@@ -42,7 +42,7 @@ const App = ({ signOut }) => {
       walkLength: form.get("walkLength")
     };
     await client.graphql({
-      query: addDogMutation,
+      query: createDogMutation,
       variables: { input: data },
     });
     fetchDogs();
@@ -68,7 +68,7 @@ const App = ({ signOut }) => {
         </View>
       ) : (
         <View>
-          <View as="form" margin="3rem 0" onSubmit={addDog}>
+          <View as="form" margin="3rem 0" onSubmit={createDog}>
             <Flex direction="row" justifyContent="center">
               <TextField
                 name="name"

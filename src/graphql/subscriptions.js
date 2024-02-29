@@ -1,9 +1,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onAddDog = /* GraphQL */ `
-  subscription OnAddDog($filter: ModelSubscriptionDogFilterInput) {
-    onAddDog(filter: $filter) {
+export const onCreateDog = /* GraphQL */ `
+  subscription OnCreateDog($filter: ModelSubscriptionDogFilterInput) {
+    onCreateDog(filter: $filter) {
       id
       name
       breed

@@ -13,7 +13,7 @@ type Dog @aws_api_key @aws_iam {
   walkLength: String!
 }
 
-input AddDogInput {
+input CreateDogInput {
   name: String!
   breed: String!
   walkLength: String!
@@ -25,7 +25,7 @@ type ModelDogConnection @aws_api_key @aws_iam {
 }
 
 type Mutation {
-  addDog(condition: ModelDogConditionInput, input: CreateDogInput!): Dog @aws_api_key @aws_iam
+  createDog(condition: ModelDogConditionInput, input: CreateDogInput!): Dog @aws_api_key @aws_iam
   deleteDog(condition: ModelDogConditionInput, input: DeleteDogInput!): Dog @aws_api_key @aws_iam
   updateDog(condition: ModelDogConditionInput, input: UpdateDogInput!): Dog @aws_api_key @aws_iam
 }
@@ -36,7 +36,7 @@ type Query {
 }
 
 type Subscription {
-  onAddDog(filter: ModelSubscriptionDogFilterInput): Dog @aws_api_key @aws_iam @aws_subscribe(mutations : ["createDog"])
+  onCreateDog(filter: ModelSubscriptionDogFilterInput): Dog @aws_api_key @aws_iam @aws_subscribe(mutations : ["createDog"])
   onDeleteDog(filter: ModelSubscriptionDogFilterInput): Dog @aws_api_key @aws_iam @aws_subscribe(mutations : ["deleteDog"])
   onUpdateDog(filter: ModelSubscriptionDogFilterInput): Dog @aws_api_key @aws_iam @aws_subscribe(mutations : ["updateDog"])
 }
