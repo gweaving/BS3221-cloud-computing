@@ -107,12 +107,6 @@ const App = ({ signOut }) => {
           )}
           <Heading level={2}>Current Dogs</Heading>
           <View margin="3rem 0">
-          <Flex
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              style={{ fontWeight: "bold" }}
-            >
           <table>
             <tr>
               <th>Name</th>
@@ -120,6 +114,7 @@ const App = ({ signOut }) => {
               <th>Walk Lenth</th>
               <th>Action</th>
             </tr>
+          
             {dogs.map((dog) => {
               return (
                 <tr>
@@ -139,15 +134,7 @@ const App = ({ signOut }) => {
               )
             })}
           </table>
-            </Flex>
             {dogs.map((dog) => (
-              <Flex
-                key={dog.id || dog.name}
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-              >
-              </Flex>
             ))}
           </View>
           <Button onClick={signOut}>Sign Out</Button>
