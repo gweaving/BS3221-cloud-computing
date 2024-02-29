@@ -61,7 +61,7 @@ enum ModelSortDirection {
 
 input CreateDogInput {
   breed: String!
-  id: ID
+  id: ID!
   name: String!
   walkLength: String!
 }
