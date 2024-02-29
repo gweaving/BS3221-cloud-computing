@@ -1,0 +1,238 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Dog @aws_api_key @aws_iam {
+  breed: String!
+  createdAt: AWSDateTime!
+  id: ID!
+  name: String!
+  updatedAt: AWSDateTime!
+  walkLength: String!
+}
+
+input AddDogInput {
+  name: String!
+  breed: String!
+  walkLength: String!
+}
+
+type ModelDogConnection @aws_api_key @aws_iam {
+  items: [Dog]!
+  nextToken: String
+}
+
+type Mutation {
+  addDog(condition: ModelDogConditionInput, input: CreateDogInput!): Dog @aws_api_key @aws_iam
+  deleteDog(condition: ModelDogConditionInput, input: DeleteDogInput!): Dog @aws_api_key @aws_iam
+  updateDog(condition: ModelDogConditionInput, input: UpdateDogInput!): Dog @aws_api_key @aws_iam
+}
+
+type Query {
+  getDog(id: ID!): Dog @aws_api_key @aws_iam
+  listDogs(filter: ModelDogFilterInput, limit: Int, nextToken: String): ModelDogConnection @aws_api_key @aws_iam
+}
+
+type Subscription {
+  onAddDog(filter: ModelSubscriptionDogFilterInput): Dog @aws_api_key @aws_iam @aws_subscribe(mutations : ["createDog"])
+  onDeleteDog(filter: ModelSubscriptionDogFilterInput): Dog @aws_api_key @aws_iam @aws_subscribe(mutations : ["deleteDog"])
+  onUpdateDog(filter: ModelSubscriptionDogFilterInput): Dog @aws_api_key @aws_iam @aws_subscribe(mutations : ["updateDog"])
+}
+
+enum ModelAttributeTypes {
+  _null
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+input CreateDogInput {
+  breed: String!
+  id: ID
+  name: String!
+  walkLength: String!
+}
+
+input DeleteDogInput {
+  id: ID!
+}
+
+input ModelBooleanInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  eq: Boolean
+  ne: Boolean
+}
+
+input ModelDogConditionInput {
+  and: [ModelDogConditionInput]
+  breed: ModelStringInput
+  name: ModelStringInput
+  not: ModelDogConditionInput
+  or: [ModelDogConditionInput]
+  walkLength: ModelStringInput
+}
+
+input ModelDogFilterInput {
+  and: [ModelDogFilterInput]
+  breed: ModelStringInput
+  id: ModelIDInput
+  name: ModelStringInput
+  not: ModelDogFilterInput
+  or: [ModelDogFilterInput]
+  walkLength: ModelStringInput
+}
+
+input ModelFloatInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  between: [Float]
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+}
+
+input ModelIDInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  between: [Int]
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+}
+
+input ModelSizeInput {
+  between: [Int]
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+}
+
+input ModelStringInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionBooleanInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input ModelSubscriptionDogFilterInput {
+  and: [ModelSubscriptionDogFilterInput]
+  breed: ModelSubscriptionStringInput
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  or: [ModelSubscriptionDogFilterInput]
+  walkLength: ModelSubscriptionStringInput
+}
+
+input ModelSubscriptionFloatInput {
+  between: [Float]
+  eq: Float
+  ge: Float
+  gt: Float
+  in: [Float]
+  le: Float
+  lt: Float
+  ne: Float
+  notIn: [Float]
+}
+
+input ModelSubscriptionIDInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  in: [ID]
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+  notIn: [ID]
+}
+
+input ModelSubscriptionIntInput {
+  between: [Int]
+  eq: Int
+  ge: Int
+  gt: Int
+  in: [Int]
+  le: Int
+  lt: Int
+  ne: Int
+  notIn: [Int]
+}
+
+input ModelSubscriptionStringInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  in: [String]
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+  notIn: [String]
+}
+
+input UpdateDogInput {
+  breed: String
+  id: ID!
+  name: String
+  walkLength: String
+}
