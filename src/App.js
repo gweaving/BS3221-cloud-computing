@@ -61,14 +61,15 @@ const App = ({ signOut }) => {
 
   return (
     <View className="App">
-      <Heading level={1}>My Dogs App</Heading>
+      <Heading level={1}>Wagg.ly</Heading>
       {userType === '' ? (
         <View>
           <Button onClick={() => setUserType('dogOwner')}>I am a dog owner</Button>
           <Button onClick={() => setUserType('dogWalker')}>I am a dog walker</Button>
         </View>
-      ) : (
+      ) : userType === 'dogOwner' ? (
         <View>
+          <Heading level={2}>Add Dogs</Heading>
           <View as="form" margin="3rem 0" onSubmit={createDog}>
             <Flex direction="row" justifyContent="center">
               <TextField
@@ -100,29 +101,30 @@ const App = ({ signOut }) => {
               </Button>
             </Flex>
           </View>
-          <Heading level={2}>Current Dogs</Heading>
-          <View margin="3rem 0">
-            {dogs.map((dog) => (
-              <Flex
-                key={dog.id || dog.name}
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Text as="strong" fontWeight={700}>
-                  {dog.name}
-                </Text>
-                <Text as="span">{dog.breed}{dog.walkLength}</Text>
-                
-                <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
-                  Delete dog
-                </Button>
-              </Flex>
-            ))}
-          </View>
-          <Button onClick={signOut}>Sign Out</Button>
         </View>
-      )}
+      ) : null}
+      <Heading level={2}>Current Dogs</Heading>
+      <View margin="3rem 0">
+        {dogs.map((dog) => (
+          <Flex
+            key={dog.id || dog.name}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Text as="strong" fontWeight={700}>
+              {dog.name}
+            </Text>
+            <Text as="span">{dog.breed}{dog.walkLength}</Text>
+            {userType === 'dogOwner' && (
+              <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
+                Delete dog
+              </Button>
+            )}
+          </Flex>
+        ))}
+      </View>
+      <Button onClick={signOut}>Sign Out</Button>
     </View>
   );
 };
