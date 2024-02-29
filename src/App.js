@@ -105,7 +105,7 @@ const App = ({ signOut }) => {
           </View>
         </View>
       ) : null}
-      {userType === 'dogOwner' && (
+      {userType === '' && (
         <React.Fragment>
           <Heading level={2}>Current Dogs</Heading>
           <View margin="3rem 0">
