@@ -24,10 +24,8 @@ const App = ({ signOut }) => {
   const [userType, setUserType] = useState('');
 
   useEffect(() => {
-    if (userType === 'dogOwner') {
-      fetchDogs();
-    }
-  }, [userType]);
+    fetchDogs();
+  }, []);
 
   async function fetchDogs() {
     const apiData = await client.graphql({ query: listDogs });
@@ -102,14 +100,11 @@ const App = ({ signOut }) => {
                 Add Dog
               </Button>
             </Flex>
-          </View>
-        </View>
-      ) : null}
-      {userType === '' && (
-        <React.Fragment>
+          </View> 
+          ) : null}
           <Heading level={2}>Current Dogs</Heading>
           <View margin="3rem 0">
-            <Flex
+          <Flex
               direction="row"
               justifyContent="center"
               alignItems="center"
@@ -127,18 +122,20 @@ const App = ({ signOut }) => {
                 justifyContent="center"
                 alignItems="center"
               >
-                <Text>{dog.name}</Text>
-                <Text>{dog.breed}</Text>
-                <Text>{dog.walkLength}</Text>
+                <Text as="strong" fontWeight={700}>
+                  {dog.name}
+                </Text>
+                <Text as="span">{dog.breed}{dog.walkLength}</Text>
+                
                 <Button variation="link" onClick={() => deleteDog({ id: dog.id })}>
-                  Delete
+                  Delete dog
                 </Button>
               </Flex>
             ))}
           </View>
-        </React.Fragment>
+          <Button onClick={signOut}>Sign Out</Button>
+        </View>
       )}
-      <Button onClick={signOut}>Sign Out</Button>
     </View>
   );
 };
