@@ -131,7 +131,9 @@ const App = ({ signOut }) => {
             })}
           </table>
             </Flex>
+            {dogs.map((dog) => (
               <Flex
+                key={dog.id || dog.name}
                 direction="row"
                 justifyContent="center"
                 alignItems="center"
@@ -146,6 +148,7 @@ const App = ({ signOut }) => {
                 </Button>
                 )}
               </Flex>
+            ))}
           </View>
           <Button onClick={signOut}>Sign Out</Button>
         </View>
