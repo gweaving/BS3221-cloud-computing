@@ -135,7 +135,7 @@ const App = ({ signOut }) => {
           </View>
           <Button onClick={signOut}>Sign Out</Button>
         </View>
-      )}
+      ) : null}
     </View>
   );
 };
