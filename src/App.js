@@ -69,6 +69,9 @@ const App = ({ signOut }) => {
         </View>
       ) : (
         <View>
+          <Flex direction="row" justifyContent="left">
+          <Button onClick={() => setUserType('')}>Back</Button>
+          </Flex>
           {userType === 'dogOwner' && (
             <>
               <Heading level={2}>Add Dogs</Heading>
@@ -107,7 +110,7 @@ const App = ({ signOut }) => {
           )}
           <Heading level={2}>Current Dogs</Heading>
           <View margin="3rem 0">
-          <div style={{ textAlign: "center" }}>
+          <Flex direction="row" justifyContent="center">
           <table>
             <tr>
               <th>Name</th>
@@ -135,7 +138,7 @@ const App = ({ signOut }) => {
               )
             })}
           </table>
-          </div>
+          </Flex>
           </View>
           <Button onClick={signOut}>Sign Out</Button>
         </View>
