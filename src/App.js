@@ -115,7 +115,7 @@ const App = ({ signOut }) => {
             <tr>
               <th>Name</th>
               <th>Breed</th>
-              <th>Walk Lenth</th>
+              <th>Walk Length</th>
               <th>Action</th>
             </tr>
           
